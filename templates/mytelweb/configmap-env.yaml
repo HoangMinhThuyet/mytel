@@ -4,6 +4,6 @@ metadata:
   name: {{.Values.configMaps.name.env_config}}
 data:
   {{- $files := .Files }}
-  {{- range tuple "../configmap/.env" }}
+  {{- range tuple "../configmap/env" }}
   {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
   {{- end}}
