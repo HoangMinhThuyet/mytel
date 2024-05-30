@@ -31,7 +31,7 @@ hostAliases:
 configMaps:
   name:
     nginx_config: nginx_config
-    env_config: env_config
+    env_config: env-config
     fpm_pool_config: fpm_pool_config
     php_config: php_config
     supervisord_config: supervisord_config
