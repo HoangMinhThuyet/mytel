@@ -49,11 +49,11 @@ sizePVC:
 # Khai bao volumeMount
 volumeMountsMap:
   env: dev
-  mount_nginx_config: /etc/nginx/
-  mount_env_config: /var/www/html/
-  mount_fpm_pool_config: /etc/php7/php-fpm.d/www.conf/
-  mount_php_config: /etc/php7/conf.d/
-  mount_supervisord_config: /etc/supervisor/conf.d/
+  mount_nginx_config: /etc/nginx/nginx.conf
+  mount_env_config: /var/www/html/.env
+  mount_fpm_pool_config: /etc/php7/php-fpm.d/www.conf/fpm-pool.conf
+  mount_php_config: /etc/php7/conf.d/php.ini
+  mount_supervisord_config: /etc/supervisor/conf.d/supervisor.conf
   mountPathpodinfo: /deployment/podinfo   
   mountPathPVC_data: /var/www/html/public/uploads/
   mountPathPVC_logs: /var/www/html/storage/logs/

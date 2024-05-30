@@ -24,15 +24,19 @@ spec:
         volumeMounts:
         - name: nginx-config-volume
           mountPath: {{.Values.volumeMountsMap.mount_nginx_config}}
+          subPath: nginx.conf
         - name: env-config-volume
-          mountPath: {{.Values.volumeMountsMap.mount_env_config}}        
+          mountPath: {{.Values.volumeMountsMap.mount_env_config}}
+          subPath: .env
         - name: fpm-pool-config-volume
           mountPath: {{.Values.volumeMountsMap.mount_fpm_pool_config}}
+          subPath: fpm-pool.conf
         - name: php-config-volume
           mountPath: {{.Values.volumeMountsMap.mount_php_config}}
           subPath: custom.ini
         - name: supervisord-config-volume
-          mountPath: {{.Values.volumeMountsMap.mount_supervisord_config}}       
+          mountPath: {{.Values.volumeMountsMap.mount_supervisord_config}}
+          subPath: supervisord.conf
         resources:
           limits:
             cpu: {{.Values.resources.limits.cpu}}
