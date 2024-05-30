@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.configMaps.name.supervisord_config}}
+data:
+  {{- $files := .Files }}
+  {{- range tuple "../configmap/supervisord.conf" }}
+  {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
+  {{- end}}

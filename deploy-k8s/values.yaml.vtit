@@ -1,0 +1,132 @@
+#Chi sua gia tri, khong thay doi key
+# So luong pod duoc tao
+replicaCount: 1
+
+# khai bao namespace
+namespace:
+  mytel-web: mytel-web
+  
+# Khai bao service
+service:
+  type: 
+    mytel-web: NodePort
+  nodePort: 
+    mytel-web: xxxx
+  port: 
+    mytel-web: 8080
+
+# Khai bao hostnames
+hostAliases:
+- ip: 10.201.214.10
+  hostnames:
+    - apis-uat.mytelpay.com.mm
+
+- ip: 10.201.212.9
+  hostnames:
+    - mpg.mytel.com.mm
+
+- ip: 10.201.212.201
+  hostnames:
+    - identity.mytel.com.mm
+
+# Khai bao su dung configmap
+configMaps:
+  name:
+    mytel-web:
+      env-config: env-config
+      fpm-pool-config: fpm-pool-config
+      nginx-config: nginx-config
+      php-config: php-config
+      supervisord-conf: supervisord-conf
+
+# Khai bao su dung PVC
+pvc: false
+namePVC: pvc-name
+   
+# Khai bao volumeMount
+volumeMountsMap:
+  env: dev
+  mountPathconfig: /deployment/config
+  mountPathpodinfo: /deployment/podinfo   
+  mountPathPVC: /data
+  
+#Khai bao tai nguyen su dung cho pod
+resources:
+  limits:
+    cpu:
+      mytel-web: 600m
+    memory: 
+      mytel-web: 1Gi
+  requests:
+    cpu: 
+      mytel-web: 300m
+    memory: 
+      mytel-web: 0.5Gi
+
+# Khai bao promethus
+promethus: false
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: /actuator/prometheus
+  prometheus.io/port: "8881"
+  
+# Khai bao HealthCheck
+
+healthCheck: false
+startupProbe:
+  failureThreshold: 10
+  httpGet:
+    path: /actuator/health
+    port: 8881
+    scheme: HTTP
+  periodSeconds: 5
+  successThreshold: 1
+  timeoutSeconds: 2
+livenessProbe:
+  failureThreshold: 10
+  httpGet:
+    path: /fpm-ping
+    port: 8080
+    scheme: HTTP
+  periodSeconds: 5
+  successThreshold: 1
+  timeoutSeconds: 2
+readinessProbe:
+  failureThreshold: 10
+  httpGet:
+    path: /fpm-ping
+    port: 8080
+    scheme: HTTP
+  periodSeconds: 5
+  successThreshold: 1
+  timeoutSeconds: 2
+
+# Khai bao bien moi truong 
+ENV_PROFILE: dev
+JVM_OPTS: -Xms512m -Xmx2048m -Dsun.net.http.retryPost=false -Dhttp.retryPost=false
+  
+# Chi dinh pod chay tren node co dinh(chi dung tren live: default hoac abc)
+nodeName: 
+
+# So lan deploy Helm
+numberHelm: H1
+
+# Thong tin image
+image:
+  repository: image_version
+  pullPolicy: Always
+
+# Khai bao secret-registry harbor
+imagePullSecrets:
+  name:
+    harbor: harbor-secret-registry
+#Khai bao IP gluster
+glusterfs: false
+gluster:
+  - 10.201.213.35
+  - 10.201.213.36
+# Khai bao Volume cluster
+glustermap: 
+  endpoints: xxxx-service
+  path: x-xxx
+  pathinpod: /mnt/glusterfs

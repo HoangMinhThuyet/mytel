@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mytelweb-deployment
+  labels:
+    {{.Values.labels.key}}: {{.Values.labels.value}}
+spec:
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      {{.Values.labels.key}}: {{.Values.labels.value}}
+  template:
+    metadata:
+      labels:
+        {{.Values.labels.key}}: {{.Values.labels.value}}
+    spec:      
+      containers:
+      - name: mytelweb
+        image: {{.Values.image.repository}}
+        imagePullPolicy: {{.Values.image.pullPolicy}}
+        ports:
+        - containerPort: {{.Values.service.port}}
+          name: http
+        volumeMounts:
+        - name: nginx-config-volume
+          mountPath: {{.Values.volumeMountsMap.mount_nginx_config}}
+        volumeMounts:
+        - name: env-config-volume
+          mountPath: {{.Values.volumeMountsMap.mount_env_config}}        
+        volumeMounts:
+        - name: fpm-pool-config-volume
+          mountPath: {{.Values.volumeMountsMap.mount_fpm_pool_config}}
+        volumeMounts:
+        - name: php-config-volume
+          mountPath: {{.Values.volumeMountsMap.mount_php_config}}
+          subPath: custom.ini
+        volumeMounts:
+        - name: supervisord-config-volume
+          mountPath: {{.Values.volumeMountsMap.mount_supervisord_config}}
+        volumeMounts:
+        - name: data-pvc-volume
+          mountPath: {{.Values.volumeMountsMap.mountPathPVC_data}}
+        volumeMounts:
+        - name: logs-pvc-volume
+          mountPath: {{.Values.volumeMountsMap.mountPathPVC_logs}}        
+        resources:
+          limits:
+            cpu: {{.Values.resources.limits.cpu}}
+            memory: {{.Values.resources.limits.memory}}
+          requests:
+            cpu: {{.Values.resources.requests.cpu}}
+            memory: {{.Values.resources.requests.memory}}
+        livenessProbe:
+          httpGet:
+            path: {{.Values.livenessProbe.httpGet.path}}
+            port: {{.Values.livenessProbe.httpGet.port}}
+          periodSeconds: {{.Values.livenessProbe.periodSeconds}}
+          timeoutSeconds: {{.Values.livenessProbe.timeoutSeconds}}
+          successThreshold: {{.Values.livenessProbe.successThreshold}}
+          failureThreshold: {{.Values.livenessProbe.failureThreshold}}
+        readinessProbe:
+          httpGet:
+            path: {{.Values.readinessProbe.httpGet.path}}
+            port: {{.Values.readinessProbe.httpGet.port}}
+          periodSeconds: {{.Values.readinessProbe.periodSeconds}}
+          timeoutSeconds: {{.Values.readinessProbe.timeoutSeconds}}
+          successThreshold: {{.Values.readinessProbe.successThreshold}}
+          failureThreshold: {{.Values.readinessProbe.failureThreshold}}
+      volumes:
+      - name: nginx-config-volume
+        configMap:
+          name: {{.Values.configMaps.name.nginx_config}}
+      - name: env-config-volume
+        configMap:
+          name: {{.Values.configMaps.name.env_config}}
+      - name: fpm-pool-config-volume
+        configMap:
+          name: {{.Values.configMaps.name.fpm_pool_config}}
+      - name: php-config-volume
+        configMap:
+          name: {{.Values.configMaps.name.php_config}}
+      - name: supervisord-config-volume
+        configMap:
+          name: {{.Values.configMaps.name.supervisord_config}}      
+      - name: data-pvc-volume
+        persistentVolumeClaim:
+          claimName: {{.Values.namePVC.data.name}}
+      - name: logs-pvc-volume
+        persistentVolumeClaim:
+          claimName: {{.Values.namePVC.logs.name}}
+      imagePullSecrets:
+      - name: {{.Values.imagePullSecrets.name}}

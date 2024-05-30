@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.configMaps.name.env_config}}
+data:
+  {{- $files := .Files }}
+  {{- range tuple "../configmap/.env" }}
+  {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
+  {{- end}}
