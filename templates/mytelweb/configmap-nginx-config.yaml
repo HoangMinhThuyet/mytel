@@ -4,6 +4,14 @@ metadata:
   name: {{.Values.configMaps.name.nginx_config}}
 data:
   {{- $files := .Files }}
-  {{- range tuple "../configmap/nginx.conf" }}
+  {{- range $path "configmap/nginx.conf" }}
   {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
   {{- end}}
+
+
+  # {{ range $path, $files := .Files.Glob "configmap/.env" }}
+  # {{ $name := base $path }}
+  # {{$name}} : |-
+  #   {{ range $.Files.Lines $path }}{{.}}
+  #   {{ end }}
+  # {{ end }}
