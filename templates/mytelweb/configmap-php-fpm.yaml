@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{.Values.configMaps.name.com_configmap}}
+  name: {{.Values.configMaps.name.fpm_pool_config}}
 data:
   {{- $files := .Files }}
   {{- range tuple "../configmap/fpm-pool.conf" }}
