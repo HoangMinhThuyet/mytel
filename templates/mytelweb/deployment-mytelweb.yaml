@@ -69,19 +69,19 @@ spec:
       volumes:
       - name: nginx-config-volume
         configMap:
-          name: {{.Values.configMaps.name.nginx_config}}
+          name: {{.Values.configMaps.nginx_config}}
       - name: env-config-volume
         configMap:
-          name: {{.Values.configMaps.name.env_config}}
+          name: {{.Values.configMaps.env_config}}
       - name: fpm-pool-config-volume
         configMap:
-          name: {{.Values.configMaps.name.fpm_pool_config}}
+          name: {{.Values.configMaps.fpm_pool_config}}
       - name: php-config-volume
         configMap:
-          name: {{.Values.configMaps.name.php_config}}
+          name: {{.Values.configMaps.php_config}}
       - name: supervisord-config-volume
         configMap:
-          name: {{.Values.configMaps.name.supervisord_config}}      
+          name: {{.Values.configMaps.supervisord_config}}      
       # - name: data-pvc-volume
       #   persistentVolumeClaim:
       #     claimName: {{.Values.namePVC.data.name}}
