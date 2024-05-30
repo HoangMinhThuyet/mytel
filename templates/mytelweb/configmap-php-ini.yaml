@@ -3,7 +3,10 @@ kind: ConfigMap
 metadata:
   name: {{.Values.configMaps.name.php_config}}
 data:
-  {{- $files := .Files }}
-  {{- range tuple "../configmap/php.ini" }}
-  {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
-  {{- end}}
+  {{ range $path, $files := .Files.Glob "configmap/php.ini" }}
+  {{ $name := base $path }}
+  {{$name}} : |-
+    {{ range $.Files.Lines $path }}{{.}}
+    {{ end }}
+  {{ end }}
+  

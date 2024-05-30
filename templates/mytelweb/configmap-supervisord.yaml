@@ -3,7 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{.Values.configMaps.name.supervisord_config}}
 data:
-  {{- $files := .Files }}
-  {{- range tuple "../configmap/supervisord.conf" }}
-  {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
-  {{- end}}
+  {{ range $path, $files := .Files.Glob "configmap/supervisord.conf" }}
+  {{ $name := base $path }}
+  {{$name}} : |-
+    {{ range $.Files.Lines $path }}{{.}}
+    {{ end }}
+  {{ end }}

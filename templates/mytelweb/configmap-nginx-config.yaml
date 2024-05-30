@@ -3,15 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{.Values.configMaps.name.nginx_config}}
 data:
-  # {{- $files := .Files }}
-  {{- range $path %files :=Files "configmap/nginx.conf" }}
-  {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
-  {{- end}}
-
-
-  # {{ range $path, $files := .Files.Glob "configmap/.env" }}
-  # {{ $name := base $path }}
-  # {{$name}} : |-
-  #   {{ range $.Files.Lines $path }}{{.}}
-  #   {{ end }}
-  # {{ end }}
+  {{ range $path, $files := .Files.Glob "configmap/nginx.conf" }}
+  {{ $name := base $path }}
+  {{$name}} : |-
+    {{ range $.Files.Lines $path }}{{.}}
+    {{ end }}
+  {{ end }}

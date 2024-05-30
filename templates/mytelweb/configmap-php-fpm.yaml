@@ -3,7 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{.Values.configMaps.name.fpm_pool_config}}
 data:
-  {{- $files := .Files }}
-  {{- range tuple "../configmap/fpm-pool.conf" }}
-  {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
-  {{- end}}
+  {{ range $path, $files := .Files.Glob "configmap/fpm-pool.conf" }}
+  {{ $name := base $path }}
+  {{$name}} : |-
+    {{ range $.Files.Lines $path }}{{.}}
+    {{ end }}
+  {{ end }}
