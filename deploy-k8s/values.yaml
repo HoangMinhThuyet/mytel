@@ -52,7 +52,7 @@ volumeMountsMap:
   mount_nginx_config: /etc/nginx/nginx.conf
   mount_env_config: /var/www/html/.env
   mount_fpm_pool_config: /etc/php7/php-fpm.d/www.conf/fpm-pool.conf
-  mount_php_config: /etc/php7/conf.d/php.ini
+  mount_php_config: /etc/php7/conf.d/custom.ini
   mount_supervisord_config: /etc/supervisor/conf.d/supervisor.conf
   mountPathpodinfo: /deployment/podinfo   
   mountPathPVC_data: /var/www/html/public/uploads/
