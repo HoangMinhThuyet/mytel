@@ -30,11 +30,11 @@ hostAliases:
 # Khai bao su dung configmap
 configMaps:
   name:
-    nginx_config: nginx_config
+    nginx_config: nginx-config
     env_config: env-config
-    fpm_pool_config: fpm_pool_config
-    php_config: php_config
-    supervisord_config: supervisord_config
+    fpm_pool_config: fpm-pool-config
+    php_config: php-config
+    supervisord_config: supervisord-config
 # Khai bao su dung PVC
 pvc: false
 namePVC:
