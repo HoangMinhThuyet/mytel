@@ -3,7 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{.Values.configMaps.name.env_config}}
 data:
-  {{- $files := .Files }}
-  {{- range tuple "configmap/env" }}
-  {{ . }}: "{{ range $files.Lines . }}{{.}}\n{{ end }}"
-  {{- end}}
+  {{ range $path, $files := .Files.Glob "../configmap/env" }}
+  {{ $name := base $path }}
+  {{$name}} : |-
+    {{ range $.Files.Lines $path }}{{.}}
+    {{ end }}
+  {{ end }}
