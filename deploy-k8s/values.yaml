@@ -123,7 +123,7 @@ numberHelm: H1
 
 # Thong tin image
 image:
-  repository: image_version
+  repository: php:7.4-fpm
   pullPolicy: Always
 
 # Khai bao secret-registry harbor

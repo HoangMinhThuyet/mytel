@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mytel
+  labels:
+    {{.Values.labels.key}}: {{.Values.labels.value}}
+spec:
+  sessionAffinity: {{.Values.service.sessionAffinity}}
+  selector:
+    {{.Values.labels.key}}: {{.Values.labels.value}}
+  ports:
+    - protocol: TCP
+      port: {{.Values.service.port}}
+      targetPort: {{.Values.service.port}}
+      name: http
+      # nodePort: {{.Values.service.nodeport.auth_was}}
+  type: LoadBalancer
